@@ -13,7 +13,7 @@ jobs:
     uses: JakobMelchard/.github/.github/workflows/node.yml@e1ef2b10e7ee0c5426f78d63a4e9c6a0ce9b3fe9 # v1.6.0
     with:
       install-cmd: npm ci
-      check-cmd: npm run typecheck
+      check-cmd: npm run check
       test-cmd: npm test
 
   hooks:
