@@ -6,4 +6,5 @@ export default [
   ...base,
   // src/ runs in the browser; test/ on Node.
   { languageOptions: { globals: { ...globals.node, ...globals.browser } } },
+  { files: ['test/e2e/app/sw.js'], languageOptions: { globals: globals.serviceworker } },
 ]

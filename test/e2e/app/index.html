@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>fixture</title>
+    <link rel="stylesheet" href="/web/tokens.css" />
+    <link rel="stylesheet" href="/web/base.css" />
+    <script type="module">
+      import { register } from '/web/register.js'
+      import { createQueue } from '/web/queue.js'
+
+      register({ version: '1' })
+      window.queue = await createQueue({
+        send: (op) => fetch('/api/save', { method: 'POST', body: JSON.stringify(op) }),
+        onDrop: (op) => console.error('dropped', op),
+      })
+    </script>
+  </head>
+  <body>
+    <h1>fixture shell</h1>
+  </body>
+</html>
