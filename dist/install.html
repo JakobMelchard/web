@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Install</title>
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="base.css" />
+    <script src="theme.js"></script>
+    <style>
+      main {
+        max-width: var(--measure-app);
+        margin: 0 auto;
+        padding: var(--space-5);
+      }
+      h2,
+      ol,
+      p,
+      button {
+        margin-top: var(--space-5);
+      }
+      ol {
+        padding-left: var(--space-6);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Install</h1>
+      <button id="install" class="hidden">Install app</button>
+      <h2>iPhone and iPad</h2>
+      <ol>
+        <li>Open this site in Safari.</li>
+        <li>Tap Share, then Add to Home Screen.</li>
+      </ol>
+      <h2>Android and desktop</h2>
+      <p>In Chrome, use the install button above or the install icon in the address bar.</p>
+      <p>Offline support needs HTTPS or localhost.</p>
+    </main>
+    <script>
+      const button = document.getElementById('install')
+      let offer
+      addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault()
+        offer = e
+        button.classList.remove('hidden')
+      })
+      button.onclick = () => offer.prompt()
+    </script>
+  </body>
+</html>

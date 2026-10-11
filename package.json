@@ -4,10 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./tokens.css": "./dist/tokens.css",
-    "./tokens-dark.css": "./dist/tokens-dark.css",
-    "./tokens.swift": "./dist/tokens.swift",
-    "./tokens.json": "./dist/tokens.json"
+    "./*": "./dist/*"
   },
   "files": [
     "dist"
