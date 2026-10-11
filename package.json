@@ -3,10 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens-dark.css": "./dist/tokens-dark.css",
+    "./tokens.swift": "./dist/tokens.swift",
+    "./tokens.json": "./dist/tokens.json"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "python3 tokens/build_tokens.py",
     "lint": "eslint .",
     "typecheck": "tsc",
-    "test": "node --test \"test/*.test.js\""
+    "test": "node --test \"test/*.test.js\"",
+    "check": "tsc && npm run build && test -z \"$(git status --porcelain dist)\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -1,14 +1,16 @@
 # web
 
-Shared PWA shell: tokens, base CSS, manifest, service worker, install page
-
-Scaffolded from [JakobMelchard/template](https://github.com/JakobMelchard/template) (`js`).
-Templated files (CI caller, `.pre-commit-config.yaml`, devcontainer, org configs) come back through
-`copier update`; Renovate opens those updates as PRs.
+Shared PWA shell for the org's apps: design tokens, base CSS, manifest, service worker and install page. Published as `@jakobmelchard/web`.
 
 ```sh
-brew install prek && prek install    # hooks pinned in .pre-commit-config.yaml
 npm install
-npm run typecheck
+npm run build    # regenerate dist/ (commit the result)
+npm run check    # typecheck, rebuild, fail if dist/ changed
 npm test
 ```
+
+| Path | Contents |
+|---|---|
+| `tokens/tokens.json` | source of all design tokens |
+| `tokens/build_tokens.py` | generates `dist/tokens.*` from it |
+| `dist/` | committed build output, the package contents |
