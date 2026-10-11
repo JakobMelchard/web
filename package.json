@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "python3 tokens/build_tokens.py",
+    "build": "python3 tokens/build_tokens.py && cp src/* dist/",
     "lint": "eslint .",
     "typecheck": "tsc",
     "test": "node --test \"test/*.test.js\"",

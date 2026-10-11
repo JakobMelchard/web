@@ -1,0 +1,32 @@
+[
+  {
+    "opts": {
+      "name": "lists",
+      "short_name": "lists",
+      "description": "Todo and grocery lists as one nested tree",
+      "start_url": "/",
+      "scope": "/"
+    },
+    "want": "{\n  \"id\": \"/\",\n  \"name\": \"lists\",\n  \"short_name\": \"lists\",\n  \"description\": \"Todo and grocery lists as one nested tree\",\n  \"start_url\": \"/\",\n  \"scope\": \"/\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#0b0d10\",\n  \"theme_color\": \"#0b0d10\",\n  \"icons\": [\n    { \"src\": \"icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\" },\n    { \"src\": \"icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\" },\n    { \"src\": \"icon-maskable.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"maskable\" }\n  ]\n}\n"
+  },
+  {
+    "opts": {
+      "name": "flatplan",
+      "short_name": "plan",
+      "description": "2D furniture arrangement planner",
+      "start_url": "/flatplan/app/",
+      "scope": "/flatplan/app/"
+    },
+    "want": "{\n  \"id\": \"/flatplan/app/\",\n  \"name\": \"flatplan\",\n  \"short_name\": \"plan\",\n  \"description\": \"2D furniture arrangement planner\",\n  \"start_url\": \"/flatplan/app/\",\n  \"scope\": \"/flatplan/app/\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#0b0d10\",\n  \"theme_color\": \"#0b0d10\",\n  \"icons\": [\n    { \"src\": \"icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\" },\n    { \"src\": \"icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\" },\n    { \"src\": \"icon-maskable.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"maskable\" }\n  ]\n}\n"
+  },
+  {
+    "opts": {
+      "name": "Café \"Q&A\"",
+      "short_name": "café",
+      "description": "<b>bold</b> & \\ back",
+      "start_url": "./",
+      "scope": "./"
+    },
+    "want": "{\n  \"id\": \"./\",\n  \"name\": \"Café \\\"Q&A\\\"\",\n  \"short_name\": \"café\",\n  \"description\": \"<b>bold</b> & \\\\ back\",\n  \"start_url\": \"./\",\n  \"scope\": \"./\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#0b0d10\",\n  \"theme_color\": \"#0b0d10\",\n  \"icons\": [\n    { \"src\": \"icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\" },\n    { \"src\": \"icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\" },\n    { \"src\": \"icon-maskable.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"maskable\" }\n  ]\n}\n"
+  }
+]
