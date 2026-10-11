@@ -1,0 +1,22 @@
+name: ci
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    uses: JakobMelchard/.github/.github/workflows/node.yml@e1ef2b10e7ee0c5426f78d63a4e9c6a0ce9b3fe9 # v1.6.0
+    with:
+      install-cmd: npm install   # switch to npm ci once package-lock.json is committed
+      check-cmd: npm run typecheck
+      test-cmd: npm test
+
+  hooks:
+    uses: JakobMelchard/.github/.github/workflows/hooks.yml@e1ef2b10e7ee0c5426f78d63a4e9c6a0ce9b3fe9 # v1.6.0
+    with:
+      skip: eslint   # needs node_modules; node.yml lints
