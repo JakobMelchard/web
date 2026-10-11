@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "typecheck": "tsc",
     "test": "node --test \"test/*.test.js\"",
-    "check": "tsc && npm run build && test -z \"$(git status --porcelain dist)\""
+    "check": "tsc && npm run build && test -z \"$(git status --porcelain dist)\"",
+    "e2e": "node --test \"test/e2e/*.test.js\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -22,7 +23,9 @@
     "@types/node": "^22",
     "eslint": "^10.11.0",
     "eslint-plugin-jsdoc": "^64.5.4",
+    "fake-indexeddb": "^6.2.5",
     "globals": "^17.12.0",
+    "playwright-core": "1.63.0",
     "typescript": "^5"
   }
 }
