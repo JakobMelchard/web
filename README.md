@@ -60,3 +60,7 @@ await queue.push({ id: 1 })
 ```
 
 `send` throws when the network is down; that and an `X-Offline: 1` response keep the op queued. Any other failed response drops the op and calls `onDrop`. Storage is IndexedDB, then localStorage; pass `store: { get, set }` to use something else, such as Capacitor Preferences.
+
+## Release
+
+release-please opens the release PR from conventional commits; merging it tags `vX.Y.Z`, which `publish.yml` stages on npm through trusted publishing. Go consumers use the same tag: `go get github.com/JakobMelchard/web@vX.Y.Z`.

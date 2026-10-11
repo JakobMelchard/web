@@ -1,7 +1,15 @@
 {
   "name": "@jakobmelchard/web",
   "version": "0.0.0",
-  "private": true,
+  "description": "Shared PWA shell: tokens, base CSS, manifest, service worker, install page",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakobMelchard/web.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "exports": {
     "./*": "./dist/*"
