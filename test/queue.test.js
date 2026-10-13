@@ -151,6 +151,18 @@ test('a sent op is never sent again', async () => {
   assert.deepEqual(sent, [1])
 })
 
+test('a store that fails to save does not break the flush or skip onDrop', async () => {
+  const replies = [ok(), new Response('stale', { status: 409 })]
+  const { sent, send } = sender(() => /** @type {Response} */ (replies.shift()))
+  const { dropped, onDrop } = drops()
+  const store = { get: async () => [1, 2], set: async () => Promise.reject(new Error('full')) }
+  const q = await createQueue({ send, onDrop, store })
+  await q.flush()
+  assert.deepEqual(sent, [1])
+  assert.deepEqual(dropped, [[2, 409]])
+  assert.equal(q.size(), 0)
+})
+
 test('pushing into a full queue throws', async () => {
   const down = sender(() => new TypeError('offline'))
   const q = await createQueue({ send: down.send, onDrop: drops().onDrop, store: memory(), max: 2 })
@@ -172,10 +184,11 @@ test('online, visibilitychange and pageshow flush', async () => {
       for (const [i, t] of ['online', 'visibilitychange', 'pageshow'].entries()) {
         up = false
         await q.push(i)
+        await q.flush()
         assert.equal(sent.includes(i), false)
         up = true
-        on[t]()
-        await q.flush()
+        await /** @type {unknown} */ (on[t]())
+        await new Promise((r) => setTimeout(r, 10))
         assert.equal(sent.includes(i), true, t)
       }
     },
