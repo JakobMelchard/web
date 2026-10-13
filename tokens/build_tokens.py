@@ -29,9 +29,6 @@ THEMED = ("color", "shadow")
 SKIP = {"name", "version", "meta", "type"} | set(THEMED)
 
 
-# CSS ---------------------------------------------------------------------------------------
-
-
 def pretty(v):
     """Format as prettier does (`rgba(1, 2, 3, 0.5)`) so consumer format checks stay stable."""
     def args(m):
@@ -75,9 +72,6 @@ def css(t, only=None):
         root.append(("font", "var(--font-mono)"))  # legacy alias
     out.append(block(":root", root))
     return "\n".join(out), len(root)
-
-
-# Swift -------------------------------------------------------------------------------------
 
 
 def camel(name):
