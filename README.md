@@ -7,7 +7,7 @@ npm install
 npm run build    # regenerate dist/ (commit the result)
 npm run check    # typecheck, rebuild, fail if dist/ changed
 npm test
-npm run e2e    # Chromium; set CHROMIUM_PATH to use an installed one
+npm run e2e      # Chromium; set CHROMIUM_PATH to use an installed one
 go test ./...
 ```
 
@@ -21,8 +21,6 @@ go test ./...
 | `test/vectors/` | manifest cases run by both the JS and the Go test |
 
 ## Service worker
-
-The app serves its own `/sw.js` with the config and imports the shared worker, then registers it with the shell version.
 
 ```js
 // /sw.js
@@ -43,11 +41,9 @@ register({ version: shellVersion })
 watchUpdates({ url: '/version', onUpdate: () => showReloadNotice() })
 ```
 
-`shell` entries are precached and refreshed from the network; `offlinePage` must be one of them. Responses served without the network carry `X-Offline: 1`.
+`offlinePage` must be one of the `shell` entries. Responses served without the network carry `X-Offline: 1`.
 
 ## Offline writes
-
-Writes made without a network are kept and sent in order. The queue runs in the page and flushes after each push, on `online`, `visibilitychange` and `pageshow`, and at start.
 
 ```js
 import { createQueue } from '@jakobmelchard/web/queue.js'
@@ -59,8 +55,10 @@ const queue = await createQueue({
 await queue.push({ id: 1 })
 ```
 
-`send` throws when the network is down; that and an `X-Offline: 1` response keep the op queued. Any other failed response drops the op and calls `onDrop`. Storage is IndexedDB, then localStorage; pass `store: { get, set }` to use something else, such as Capacitor Preferences.
+`send` throws when the network is down; that and an `X-Offline: 1` response keep the op queued. Any other failed response drops the op and calls `onDrop`. Pass `store: { get, set }` to replace IndexedDB/localStorage.
 
-## Release
+## Go
 
-release-please opens the release PR from conventional commits; merging it tags `vX.Y.Z`, which `publish.yml` stages on npm through trusted publishing. Go consumers use the same tag: `go get github.com/JakobMelchard/web@vX.Y.Z`.
+```sh
+go get github.com/JakobMelchard/web@vX.Y.Z
+```
