@@ -58,7 +58,9 @@ const boot = (
     URL,
     Response,
     Headers,
-    AbortSignal,
+    AbortController,
+    setTimeout,
+    clearTimeout,
   })
   const lifecycle = async (/** @type {string} */ type) => {
     /** @type {Promise<unknown>} */
@@ -115,6 +117,16 @@ test('online: the network answers and a shell file is stored', async () => {
   assert.ok(stored['app-2']['https://app.test/app.js'])
 })
 
+test('online: an error answer for a shell file does not replace the stored copy', async () => {
+  const good = ok('stored')
+  const { get, stored } = boot({
+    fetch: async () => new Response('oops', { status: 500 }),
+    stored: { 'app-2': { 'https://app.test/app.js': good } },
+  })
+  assert.equal((await get('app.js')).status, 500)
+  assert.equal(stored['app-2']['https://app.test/app.js'], good)
+})
+
 test('online: a file outside the shell is not stored', async () => {
   const { get, stored } = boot({ fetch: async () => ok('live') })
   await get('api/items')
@@ -140,8 +152,6 @@ test('offline: anything else that is not stored fails, marked', async () => {
 })
 
 test('a network that hangs falls back to the stored file after the timeout', async () => {
-  // AbortSignal.timeout does not keep the process alive, so a hung fetch would end the run
-  const alive = setTimeout(() => {}, 5000)
   const hang = (/** @type {unknown} */ _, /** @type {Init} */ { signal }) =>
     new Promise((_, no) => signal.addEventListener('abort', () => no(signal.reason)))
   const { get } = boot({
@@ -149,7 +159,20 @@ test('a network that hangs falls back to the stored file after the timeout', asy
     stored: { 'app-2': { 'https://app.test/app.js': ok('stored') } },
   })
   assert.equal(await (await get('app.js')).text(), 'stored')
-  clearTimeout(alive)
+})
+
+test('the timeout ends with the headers, a slow body is not aborted', async () => {
+  /** @type {AbortSignal | undefined} */
+  let signal
+  const { get } = boot({
+    fetch: async (_, init) => {
+      signal = init.signal
+      return ok('live')
+    },
+  })
+  await get('app.js')
+  await new Promise((r) => setTimeout(r, config.network.timeoutMs * 2))
+  assert.equal(signal?.aborted, false)
 })
 
 test('other methods and other origins are left alone', async () => {
