@@ -41,9 +41,13 @@
   sw.addEventListener('fetch', (e) => {
     const req = e.request
     if (req.method !== 'GET' || new URL(req.url).origin !== sw.location.origin) return
+    // a host that is down or asleep keeps a connection pending for a long time; the timer ends
+    // with the headers so a slow body is not cut off
+    const ctl = new AbortController()
+    const timer = setTimeout(() => ctl.abort(), network.timeoutMs)
     e.respondWith(
-      // a host that is down or asleep keeps a connection pending for a long time
-      fetch(req, { signal: AbortSignal.timeout(network.timeoutMs) })
+      fetch(req, { signal: ctl.signal })
+        .finally(() => clearTimeout(timer))
         .then((res) => {
           // clone before the page reads the body
           const copy = res.ok && shellUrls.has(req.url) ? res.clone() : null
