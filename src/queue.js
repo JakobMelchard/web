@@ -91,7 +91,11 @@ export const createQueue = async ({ send, onDrop, store = browserStore(), max = 
       }
       if (res.headers.get('X-Offline') === '1') return
       const op = /** @type {Op} */ (ops.shift())
-      await store.set(KEY, ops)
+      try {
+        await store.set(KEY, ops)
+      } catch {
+        // the op was handled; a failed save only means it may be sent again after a reload
+      }
       if (!res.ok) onDrop(op, res)
     }
   }
