@@ -6,10 +6,9 @@ on:
 
 jobs:
   release-please:
-    uses: JakobMelchard/.github/.github/workflows/release.yml@main
-    # melchbot (not github.token) tags, so the tag triggers publish.yml. A called workflow cannot
-    # hold more permissions than its caller, so they are repeated here.
+    uses: JakobMelchard/.github/.github/workflows/release.yml@86ce618fe2528abf23b57f57de9d012f04041b2d # v2.0.1
+    # The app token (from Infisical over OIDC) authors the release PR and tag, so its tag triggers
+    # publish.yml.
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
       id-token: write
