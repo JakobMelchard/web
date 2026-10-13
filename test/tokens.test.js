@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-const outs = ['tokens.css', 'tokens-dark.css', 'tokens.swift', 'tokens.json']
+const outs = ['tokens.css', 'tokens-dark.css', 'tokens.swift', 'tokens.kt', 'tokens.json']
 const read = (/** @type {string} */ f) => readFileSync(new URL(`../dist/${f}`, import.meta.url), 'utf8')
 
 test('generator reproduces the committed token files', () => {
