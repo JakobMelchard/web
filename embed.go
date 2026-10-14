@@ -19,7 +19,7 @@ var template []byte
 var slot = regexp.MustCompile(`"\{(\w+)\}"`)
 
 // Manifest fills dist/manifest.json with the same bytes as manifest() in manifest.js.
-// Keys: name, short_name, description, start_url, scope.
+// Keys: name, short_name, description, start_url, scope. A missing key becomes "".
 func Manifest(o map[string]string) []byte {
 	return slot.ReplaceAllFunc(template, func(m []byte) []byte {
 		var b bytes.Buffer

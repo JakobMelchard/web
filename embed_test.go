@@ -1,29 +1,26 @@
 package web
 
 import (
+	"bytes"
 	"encoding/json"
-	"io/fs"
 	"os"
 	"testing"
 )
 
-func TestFSHasEveryDistFile(t *testing.T) {
-	want := map[string]bool{}
-	err := fs.WalkDir(os.DirFS("."), "dist", func(p string, d fs.DirEntry, err error) error {
-		if err == nil && !d.IsDir() {
-			want[p] = true
-		}
-		return err
-	})
+func TestFSMatchesSrc(t *testing.T) {
+	src, err := os.ReadDir("src")
 	if err != nil {
 		t.Fatal(err)
 	}
-	fs.WalkDir(FS, "dist", func(p string, d fs.DirEntry, err error) error {
-		delete(want, p)
-		return err
-	})
-	if len(want) > 0 {
-		t.Fatalf("not embedded: %v", want)
+	for _, f := range src {
+		want, err := os.ReadFile("src/" + f.Name())
+		if err != nil {
+			t.Fatal(err)
+		}
+		got, err := FS.ReadFile("dist/" + f.Name())
+		if err != nil || !bytes.Equal(got, want) {
+			t.Errorf("dist/%s is missing or differs from src/; run npm run build", f.Name())
+		}
 	}
 }
 
