@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.1](https://github.com/JakobMelchard/web/compare/v0.1.0...v0.1.1) (2026-10-14)
+
+
+### Features
+
+* generate Kotlin Compose tokens ([#13](https://github.com/JakobMelchard/web/issues/13)) ([8177e6c](https://github.com/JakobMelchard/web/commit/8177e6c28de64d5f612f533b04d8976af8570f45))
+
+
+### Bug Fixes
+
+* **queue:** retry gateway errors and share the queue across tabs ([#31](https://github.com/JakobMelchard/web/issues/31)) ([d6eb99a](https://github.com/JakobMelchard/web/commit/d6eb99aa8fe1ff7bc142843ee98a6a880aaceab4)), closes [#30](https://github.com/JakobMelchard/web/issues/30)
+* **queue:** survive a store that fails to save ([#21](https://github.com/JakobMelchard/web/issues/21)) ([7687acf](https://github.com/JakobMelchard/web/commit/7687acff0eb3fca2305e5bbd06b84a48ceb2a219))
+* **sw:** time out only the wait for headers ([#22](https://github.com/JakobMelchard/web/issues/22)) ([3e1ac00](https://github.com/JakobMelchard/web/commit/3e1ac00c024366c463a2e4608db8b115f2c564f0))
+
 ## 0.1.0 (2026-10-11)
 
 
