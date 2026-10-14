@@ -28,5 +28,22 @@
       "scope": "./"
     },
     "want": "{\n  \"id\": \"./\",\n  \"name\": \"Café \\\"Q&A\\\"\",\n  \"short_name\": \"café\",\n  \"description\": \"<b>bold</b> & \\\\ back\",\n  \"start_url\": \"./\",\n  \"scope\": \"./\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#0b0d10\",\n  \"theme_color\": \"#0b0d10\",\n  \"icons\": [\n    { \"src\": \"icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\" },\n    { \"src\": \"icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\" },\n    { \"src\": \"icon-maskable.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"maskable\" }\n  ]\n}\n"
+  },
+  {
+    "opts": {
+      "name": "line\u2028para\u2029end",
+      "short_name": "sep",
+      "description": "tab\tnew\nline",
+      "start_url": "/",
+      "scope": "/"
+    },
+    "want": "{\n  \"id\": \"/\",\n  \"name\": \"line\\u2028para\\u2029end\",\n  \"short_name\": \"sep\",\n  \"description\": \"tab\\tnew\\nline\",\n  \"start_url\": \"/\",\n  \"scope\": \"/\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#0b0d10\",\n  \"theme_color\": \"#0b0d10\",\n  \"icons\": [\n    { \"src\": \"icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\" },\n    { \"src\": \"icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\" },\n    { \"src\": \"icon-maskable.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"maskable\" }\n  ]\n}\n"
+  },
+  {
+    "opts": {
+      "name": "partial",
+      "start_url": "/"
+    },
+    "want": "{\n  \"id\": \"/\",\n  \"name\": \"partial\",\n  \"short_name\": \"\",\n  \"description\": \"\",\n  \"start_url\": \"/\",\n  \"scope\": \"\",\n  \"display\": \"standalone\",\n  \"background_color\": \"#0b0d10\",\n  \"theme_color\": \"#0b0d10\",\n  \"icons\": [\n    { \"src\": \"icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\" },\n    { \"src\": \"icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\" },\n    { \"src\": \"icon-maskable.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"maskable\" }\n  ]\n}\n"
   }
 ]
