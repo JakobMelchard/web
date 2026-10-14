@@ -142,6 +142,87 @@ test('a network error or an X-Offline answer leaves the op queued', async () => 
   assert.deepEqual(dropped, [])
 })
 
+test('a gateway, timeout or rate limit answer leaves the op queued', async () => {
+  const replies = [502, 503, 504, 408, 429].map((status) => new Response(null, { status }))
+  const { sent, send } = sender(() => replies.shift() ?? ok())
+  const { dropped, onDrop } = drops()
+  const q = await createQueue({ send, onDrop, store: memory() })
+  await q.push(1)
+  for (let i = 0; i < 5; i++) {
+    await q.flush()
+    assert.equal(q.size(), 1)
+  }
+  await q.flush()
+  assert.deepEqual(sent, [1])
+  assert.deepEqual(dropped, [])
+})
+
+test('an onDrop that throws does not stop the flush', async () => {
+  const replies = [new Response('stale', { status: 409 }), ok()]
+  const { sent, send } = sender(() => /** @type {Response} */ (replies.shift()))
+  const q = await createQueue({
+    send,
+    onDrop: () => {
+      throw new Error('caller bug')
+    },
+    store: memory(),
+  })
+  const error = console.error
+  console.error = () => {}
+  try {
+    await q.push(1)
+    await q.push(2)
+    await q.flush()
+  } finally {
+    console.error = error
+  }
+  assert.deepEqual(sent, [2])
+  assert.equal(q.size(), 0)
+})
+
+// a Web Locks stand-in: requests for one name run one at a time
+const locks = () => {
+  /** @type {Map<string, Promise<unknown>>} */
+  const tail = new Map()
+  return {
+    request: (/** @type {string} */ name, /** @type {() => Promise<unknown>} */ f) => {
+      const p = (tail.get(name) ?? Promise.resolve()).then(f)
+      tail.set(name, p.catch(() => {}))
+      return p
+    },
+  }
+}
+
+test('two tabs pushing to one store keep both ops', async () => {
+  await stub({ navigator: { locks: locks() } }, async () => {
+    const store = memory()
+    const down = sender(() => new TypeError('offline'))
+    const a = await createQueue({ send: down.send, onDrop: drops().onDrop, store })
+    const b = await createQueue({ send: down.send, onDrop: drops().onDrop, store })
+    await Promise.all([a.push(1), b.push(2)])
+    assert.deepEqual(store.m.get('queue'), [1, 2])
+  })
+})
+
+test('two tabs flushing one store send each op once', async () => {
+  await stub({ navigator: { locks: locks() } }, async () => {
+    const store = memory()
+    await store.set('queue', [1, 2])
+    /** @type {number[]} */
+    const sent = []
+    const send = async (/** @type {number} */ op) => {
+      await new Promise((r) => setTimeout(r))
+      sent.push(op)
+      return ok()
+    }
+    const a = await createQueue({ send, onDrop: drops().onDrop, store })
+    const b = await createQueue({ send, onDrop: drops().onDrop, store })
+    await Promise.all([a.flush(), b.flush()])
+    assert.deepEqual(sent, [1, 2])
+    assert.deepEqual(store.m.get('queue'), [])
+  })
+})
+
 test('a sent op is never sent again', async () => {
   const { sent, send } = sender()
   const q = await createQueue({ send, onDrop: drops().onDrop, store: memory() })
