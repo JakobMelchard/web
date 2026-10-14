@@ -61,15 +61,24 @@ const browserStore = () => {
 // statuses a sleeping host, its proxy or a rate limiter answer with; the op is retried later
 const RETRY = new Set([408, 429, 502, 503, 504])
 
+/** @type {Map<string, Promise<unknown>>} */
+const tails = new Map()
+
 /**
- * Run f while holding the Web Lock `name`, so tabs that share the store take turns.
+ * Run f while holding the Web Lock `name`, so tabs that share the store take turns. Without Web
+ * Locks, calls in this page still take turns.
  * @template T
  * @param {string} name lock name
  * @param {() => Promise<T>} f runs while the lock is held
  * @returns {Promise<T>} what f resolves to
  */
-const lock = (name, f) =>
-  globalThis.navigator?.locks ? /** @type {Promise<T>} */ (navigator.locks.request(name, f)) : f()
+const lock = (name, f) => {
+  if (globalThis.navigator?.locks)
+    return /** @type {Promise<T>} */ (navigator.locks.request(name, f))
+  const p = (tails.get(name) ?? Promise.resolve()).then(f)
+  tails.set(name, p.catch(() => {}))
+  return p
+}
 
 /**
  * Queue writes made while offline and send them in order. Safari has no Background Sync, so this
