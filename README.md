@@ -55,7 +55,7 @@ const queue = await createQueue({
 await queue.push({ id: 1 })
 ```
 
-`send` throws when the network is down; that and an `X-Offline: 1` response keep the op queued. Any other failed response drops the op and calls `onDrop`. Pass `store: { get, set }` to replace IndexedDB/localStorage.
+`send` throws when the network is down; that, an `X-Offline: 1` response and a 408, 429, 502, 503 or 504 keep the op queued. Any other failed response drops the op and calls `onDrop`. Open tabs share one queue through Web Locks. Pass `store: { get, set }` to replace IndexedDB/localStorage.
 
 ## Go
 
