@@ -6,23 +6,8 @@
     <title>Install</title>
     <link rel="stylesheet" href="tokens.css" />
     <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="install.css" />
     <script src="theme.js"></script>
-    <style>
-      main {
-        max-width: var(--measure-app);
-        margin: 0 auto;
-        padding: var(--space-5);
-      }
-      h2,
-      ol,
-      p,
-      button {
-        margin-top: var(--space-5);
-      }
-      ol {
-        padding-left: var(--space-6);
-      }
-    </style>
   </head>
   <body>
     <main>
@@ -37,15 +22,6 @@
       <p>In Chrome, use the install button above or the install icon in the address bar.</p>
       <p>Offline support needs HTTPS or localhost.</p>
     </main>
-    <script>
-      const button = document.getElementById('install')
-      let offer
-      addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault()
-        offer = e
-        button.classList.remove('hidden')
-      })
-      button.onclick = () => offer.prompt()
-    </script>
+    <script src="install.js"></script>
   </body>
 </html>
