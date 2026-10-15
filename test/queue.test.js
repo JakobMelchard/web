@@ -187,7 +187,10 @@ const locks = () => {
   return {
     request: (/** @type {string} */ name, /** @type {() => Promise<unknown>} */ f) => {
       const p = (tail.get(name) ?? Promise.resolve()).then(f)
-      tail.set(name, p.catch(() => {}))
+      tail.set(
+        name,
+        p.catch(() => {}),
+      )
       return p
     },
   }

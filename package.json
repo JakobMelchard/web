@@ -22,18 +22,21 @@
     "lint": "eslint .",
     "typecheck": "tsc",
     "test": "node --test \"test/*.test.js\"",
-    "check": "tsc && npm run build && test -z \"$(git status --porcelain dist)\"",
-    "e2e": "node --test \"test/e2e/*.test.js\""
+    "check": "tsc && prettier --check . && npm run build && test -z \"$(git status --porcelain dist)\"",
+    "e2e": "node --test \"test/e2e/*.test.js\"",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@jakobmelchard/config": "github:JakobMelchard/.config#v1.0.0",
+    "@jakobmelchard/config": "github:JakobMelchard/.config#v3.0.0",
     "@types/node": "^22",
     "eslint": "^10.11.0",
     "eslint-plugin-jsdoc": "^64.5.4",
     "fake-indexeddb": "^6.2.5",
     "globals": "^17.12.0",
     "playwright-core": "1.63.0",
+    "prettier": "^3.9.10",
     "typescript": "^5"
-  }
+  },
+  "prettier": "@jakobmelchard/config/prettier"
 }

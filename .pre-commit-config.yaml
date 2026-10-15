@@ -11,4 +11,13 @@ repos:
     rev: v1.0.1
     hooks:
       - id: conventional-commit
+      - id: prettier
       - id: eslint
+  - repo: local
+    hooks:
+      - id: tsc
+        name: tsc (repo-installed)
+        entry: npx --no-install tsc
+        language: system
+        types: [javascript]
+        pass_filenames: false
