@@ -1,5 +1,4 @@
 {
   "extends": "@jakobmelchard/config/tsconfig",
-  "include": ["src", "test"],
-  "exclude": ["test/e2e/app"]
+  "include": ["src", "test"]
 }

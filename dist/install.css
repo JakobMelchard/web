@@ -1,0 +1,14 @@
+main {
+  max-width: var(--measure-app);
+  margin: 0 auto;
+  padding: var(--space-5);
+}
+h2,
+ol,
+p,
+button {
+  margin-top: var(--space-5);
+}
+ol {
+  padding-left: var(--space-6);
+}
