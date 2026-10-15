@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/JakobMelchard/web/compare/v0.1.1...v0.1.2) (2026-10-14)
+
+
+### Bug Fixes
+
+* **manifest:** match Go escaping of U+2028/U+2029 and treat missing keys as empty ([#34](https://github.com/JakobMelchard/web/issues/34)) ([cc8f15b](https://github.com/JakobMelchard/web/commit/cc8f15b659196cae527bb0cc3f69416d0c66cc69))
+
 ## [0.1.1](https://github.com/JakobMelchard/web/compare/v0.1.0...v0.1.1) (2026-10-14)
 
 
