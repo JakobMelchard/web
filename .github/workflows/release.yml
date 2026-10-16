@@ -4,6 +4,8 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   release-please:
     uses: JakobMelchard/.github/.github/workflows/release.yml@531b4dcb30293e6219d67e312e164cc262a69955 # v2.3.1
