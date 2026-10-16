@@ -76,7 +76,10 @@ const lock = (name, f) => {
   if (globalThis.navigator?.locks)
     return /** @type {Promise<T>} */ (navigator.locks.request(name, f))
   const p = (tails.get(name) ?? Promise.resolve()).then(f)
-  tails.set(name, p.catch(() => {}))
+  tails.set(
+    name,
+    p.catch(() => {}),
+  )
   return p
 }
 

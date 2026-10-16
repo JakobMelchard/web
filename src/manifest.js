@@ -14,4 +14,8 @@ const template = readFileSync(new URL('./manifest.json', import.meta.url), 'utf8
 export const manifest = (o) =>
   template.replace(/"\{(\w+)\}"/g, (_, /** @type {Key} */ k) =>
     // Go's encoding/json escapes U+2028 and U+2029; match it byte for byte.
-    JSON.stringify(o[k] ?? '').replace(/[\u2028\u2029]/g, (c) => `\\u${c.charCodeAt(0).toString(16)}`))
+    JSON.stringify(o[k] ?? '').replace(
+      /[\u2028\u2029]/g,
+      (c) => `\\u${c.charCodeAt(0).toString(16)}`,
+    ),
+  )
