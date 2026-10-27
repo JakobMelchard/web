@@ -8,7 +8,7 @@ permissions: {}
 
 jobs:
   release-please:
-    uses: JakobMelchard/.github/.github/workflows/release.yml@531b4dcb30293e6219d67e312e164cc262a69955 # v2.3.1
+    uses: JakobMelchard/.github/.github/workflows/release.yml@df18859960a81d988ca3c7498bdd6a2dc976fec9 # v2.6.0
     # The app token (from Infisical over OIDC) authors the release PR and tag, so its tag triggers
     # publish.yml.
     permissions:
