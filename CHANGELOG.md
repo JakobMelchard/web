@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/JakobMelchard/web/compare/v0.1.2...v0.1.3) (2026-11-12)
+
+
+### Bug Fixes
+
+* **deps:** take @jakobmelchard/config from npm ([#44](https://github.com/JakobMelchard/web/issues/44)) ([580c415](https://github.com/JakobMelchard/web/commit/580c4155ac4ce29e8576a43f186cd4875315f1c4))
+
 ## [0.1.2](https://github.com/JakobMelchard/web/compare/v0.1.1...v0.1.2) (2026-10-14)
 
 
