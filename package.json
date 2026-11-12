@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@jakobmelchard/config": "github:JakobMelchard/.config#v3.0.0",
+    "@jakobmelchard/config": "^3.1.0",
     "@types/node": "^22",
     "eslint": "^10.11.0",
     "eslint-plugin-jsdoc": "^64.5.4",
