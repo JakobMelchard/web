@@ -1,29 +1,39 @@
 # web
 
-Shared PWA shell for the org's apps: design tokens, base CSS, manifest, service worker and install page. Published as `@jakobmelchard/web`.
+## Purpose
+
+- Shared PWA shell: design tokens, CSS, manifest, service worker, install page, offline write queue and update checks.
+- Published as `@jakobmelchard/web`; Go servers embed the same committed assets.
+
+## Layout
+
+```text
+tokens/        Token source and Python generator
+src/           CSS, theme, manifest, service worker, queue and install UI
+dist/          Committed npm assets and Go embed input
+embed.go       web.FS and web.Manifest for Go servers
+test/          JavaScript tests, shared vectors and browser fixtures
+.github/       CI, release and npm publish workflows
+```
+
+## Usage
 
 ```sh
-npm install
-npm run build    # regenerate dist/ (commit the result)
-npm run check    # typecheck, rebuild, fail if dist/ changed
+npm ci
+npm run build
+npm run check
+npm run lint
 npm test
-npm run e2e      # Chromium; set CHROMIUM_PATH to use an installed one
+npm run e2e
 go test ./...
 ```
 
-| Path | Contents |
-|---|---|
-| `tokens/tokens.json` | source of all design tokens |
-| `tokens/build_tokens.py` | generates `dist/tokens.*` from it |
-| `src/` | base CSS, theme follower, manifest template, service worker, register, update check, write queue, install page |
-| `dist/` | committed build output: the npm package and the Go embed |
-| `embed.go` | `web.FS` and `web.Manifest` for Go servers |
-| `test/vectors/` | manifest cases run by both the JS and the Go test |
-
-## Service worker
+- Commit regenerated `dist/`. `check` rejects stale output.
+- Browser tests use Chromium; `CHROMIUM_PATH` selects an installed executable.
+- Import assets with `@jakobmelchard/web/<file>`; exports resolve to `dist/`.
 
 ```js
-// /sw.js
+// Application /sw.js; serve this package's sw.js at /web/sw.js.
 self.WEB_SW = {
   cache: 'app',
   shell: ['/', '/static/app.js', '/static/style.css'],
@@ -33,32 +43,25 @@ self.WEB_SW = {
 importScripts('/web/sw.js')
 ```
 
-```js
-import { register } from '@jakobmelchard/web/register.js'
-import { watchUpdates } from '@jakobmelchard/web/update.js'
+- `offlinePage` must be in `shell`; offline responses carry `X-Offline: 1`.
+- `register.js` exports `register({ version })`; `update.js` exports `watchUpdates({ url, onUpdate })`.
+- `queue.js` exports `createQueue({ send, onDrop })`, returning a queue with `push(op)`.
+- Network errors, offline responses and HTTP 408/429/502/503/504 retain queued operations; other failures drop them and call `onDrop`.
+- Tabs coordinate with Web Locks. Optional `store: { get, set }` replaces IndexedDB/localStorage.
 
-register({ version: shellVersion })
-watchUpdates({ url: '/version', onUpdate: () => showReloadNotice() })
-```
+## Operate
 
-`offlinePage` must be one of the `shell` entries. Responses served without the network carry `X-Offline: 1`.
+- Owner: JakobMelchard. Library only; consumer apps own deployment.
+- Release-please owns versions and `CHANGELOG.md`.
+- Deploy: `.github/workflows/publish.yml` stages npm publication on `v*` tags using OIDC; owner approval with 2FA makes the staged version live.
+- Rollback: consumers pin a prior npm version or Go tag; no automated package rollback is defined.
+- CI: `.github/workflows/ci.yml` runs shared Node, Go and hook checks; browser fixtures test PWA behavior.
 
-## Offline writes
+## Dependencies
 
-```js
-import { createQueue } from '@jakobmelchard/web/queue.js'
+- Node version satisfying `package.json`, npm, Python 3, Go and Chromium for browser checks.
+- TypeScript, ESLint, Prettier, Playwright Core and shared config are locked in `package-lock.json`.
 
-const queue = await createQueue({
-  send: (op) => fetch('/api/save', { method: 'POST', body: JSON.stringify(op) }),
-  onDrop: (op, res) => reportRefused(op, res.status),
-})
-await queue.push({ id: 1 })
-```
+## Status
 
-`send` throws when the network is down; that, an `X-Offline: 1` response and a 408, 429, 502, 503 or 504 keep the op queued. Any other failed response drops the op and calls `onDrop`. Open tabs share one queue through Web Locks. Pass `store: { get, set }` to replace IndexedDB/localStorage.
-
-## Go
-
-```sh
-go get github.com/JakobMelchard/web@vX.Y.Z
-```
+- Live source: shared PWA library and npm/Go distribution. No replacement or new service is selected; publication availability is unverified.
