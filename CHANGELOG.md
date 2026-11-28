@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/JakobMelchard/web/compare/v0.1.3...v0.1.4) (2026-11-27)
+
+
+### Bug Fixes
+
+* **deps:** resolve npm audit moderate findings ([#51](https://github.com/JakobMelchard/web/issues/51)) ([7ef0940](https://github.com/JakobMelchard/web/commit/7ef0940566e78f97fb0c2f9da43845d45feb48ed))
+
 ## [0.1.3](https://github.com/JakobMelchard/web/compare/v0.1.2...v0.1.3) (2026-11-12)
 
 
